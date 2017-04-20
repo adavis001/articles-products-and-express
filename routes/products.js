@@ -1,10 +1,10 @@
 /*jshint esversion:6*/
 const express = require('express');
 const router = express.Router();
+const productDB = require('../db/products');
 
-let productId = 0;
 
-let collection = [];
+
 
 
 
@@ -13,13 +13,15 @@ router.route('/')
     res.json(`Product id = ${productId}`);
   })
   .post(function(req, res) {
-  	productId++;
-  	collection.push(req.body);
-  	console.log(collection);
-  	let name = req.body.name;
-  	let price = parseFloat(req.body.price);
-  	let inventory = parseFloat(req.body.inventory);
-    res.send(`Product: ${productId} \r\n Product Name: ${name}\r\n  Product Price: ${price}\r\n  Product Inventory: ${inventory}`);
+  	productDB.addProduct(req.body, function(err, product){
+  		if(err){
+  			throw new Error(err);
+  		}
+    	res.send(`Product: ${product.id} \r\n Product Name: ${product.name}\r\n  Product Price: ${product.price}\r\n  Product Inventory: ${product.inventory}`);
+  	});
+  	// let name = req.body.name;
+  	// let price = parseFloat(req.body.price);
+  	// let inventory = parseFloat(req.body.inventory);
   })
   .put(function(req, res) {
     res.send('Updated the Product');
