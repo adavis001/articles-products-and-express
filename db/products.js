@@ -6,6 +6,8 @@ let productId = 1;
 
 
 const addProduct = function(obj, cb){
+	obj.price = parseFloat(obj.price);
+	obj.inventory = parseInt(obj.inventory);
 	collection.push(obj);
 	obj.id = productId;
 	productId++;
