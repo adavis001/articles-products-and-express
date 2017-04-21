@@ -14,11 +14,11 @@ router.route('/')
   	});
   });
 
-router.route('/:id')
+router.route('/products/:id')
   .put(function(req, res) {
     res.send('Updated the Product');
   })
   .delete((req,res) =>{
   	res.json({success: true});
   });
-module.exports = router;
+module.exports = router;  
