@@ -15,4 +15,16 @@ const addProduct = function(obj, cb){
 	cb(null, obj);
 };
 
-module.exports = {addProduct: addProduct};
+const findId = function(obj, cb){
+	for (var i = 0; i < collection.length; i++) {
+		if(parseInt(obj.id) === collection[i].id){
+			return cb(null, collection[i]);
+		}
+	}
+	cb('productId not found');
+};
+
+module.exports = {
+	findId: findId,
+	collection: collection,
+	addProduct: addProduct};

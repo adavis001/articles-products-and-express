@@ -4,9 +4,16 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const productsRoutes = require('./routes/products');
+const handlebars = require('express-handlebars');
 const PORT = 3000;
 
-app.use(express.static('public'));
+const hbs = handlebars.create({
+  extname: '.hbs',
+  defaultLayout: 'main'
+});
+app.engine('hbs', hbs.engine);
+app.set('view engine', 'hbs');
+
 app.use(bodyParser.urlencoded({extended: false}));
 
 app.use('/products', productsRoutes);
