@@ -1,28 +1,36 @@
-/*jshint esversion:6*/
-
+/* jshint esversion: 6 */
 const express = require('express');
-const app = express();
 const bodyParser = require('body-parser');
-const productsRoutes = require('./routes/products');
 const handlebars = require('express-handlebars');
-const PORT = 3000;
+const methodOverride = require('method-override');
+const productsRouter = require('./routes/products');
+const articlesRouter = require('./routes/articles');
+const PORT = 8888;
+const app = express();
 
 const hbs = handlebars.create({
   extname: '.hbs',
   defaultLayout: 'main'
 });
+
 app.engine('hbs', hbs.engine);
-app.set('view engine', 'hbs');
+app.set('view engine','hbs');
 
-app.use(bodyParser.urlencoded({extended: false}));
-
-app.use('/products', productsRoutes);
-
-app.get('/', function(req,res) {
-	res.send('Hello World!');
+app.use(express.static('./'));
+//get
+app.get('/', (req,res) => {
+  res.render('home');
 });
 
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(methodOverride('_method'));
+app.use('/products',productsRouter);
+app.use('/articles',articlesRouter);
 
-const server = app.listen(PORT, () => {
-	console.log(`server listening on port ${PORT}`);
-});  
+app.get("*",(req,res) => {
+  res.send('404');
+});
+
+app.listen(PORT, () => {
+  console.log(`express server running on ${PORT}`);
+});

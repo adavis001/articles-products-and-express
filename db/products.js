@@ -1,30 +1,71 @@
-/*jshint esversion:6*/
+/* jshint esversion: 6 */
+let pgp = require('pg-promise')();
 
-
-let collection = [];
-let productId = 1;
-
-
-const addProduct = function(obj, cb){
-	obj.price = parseFloat(obj.price);
-	obj.inventory = parseInt(obj.inventory);
-	collection.push(obj);
-	obj.id = productId;
-	productId++;
-	console.log(collection);
-	cb(null, obj);
+let cn = {
+  host: 'localhost',
+  port: 5432,
+  database: 'products_articles',
+  user: 'bob',
+  password: 'burger'
 };
 
-const findId = function(obj, cb){
-	for (var i = 0; i < collection.length; i++) {
-		if(parseInt(obj.id) === collection[i].id){
-			return cb(null, collection[i]);
-		}
-	}
-	cb('productId not found');
+let db  = pgp(cn);
+
+function productList(req, callback)  {
+  return ''
 };
+
+let newProductId = 1;
+
+function addNewProduct(product) {
+  product.id = newProductId;
+  newProductId++;
+  productList.push(product);
+}
+
+function findProductById(requestId){
+  for(let i = 0; i < productList.length; i++){
+    if(productList[i].id === requestId){
+       return productList[i];
+    }
+  }
+}
+
+function deleteProduct(requestId){
+  for(let i = 0; i < productList.length; i++){
+    if(productList[i].id === requestId){
+      console.log("delep");
+      productList.splice(i, 1);
+    }
+  }
+}
+
+function editProduct(productToEdit, req) {
+  if(req.body.name){
+      productToEdit.name = req.body.name;
+    }
+    // check if has price
+    if(req.body.price){
+      productToEdit.price = req.body.price;
+    }
+    // check if has inventory
+    if(req.body.inventory){
+      productToEdit.inventory = req.body.inventory;
+    }
+}
 
 module.exports = {
-	findId: findId,
-	collection: collection,
-	addProduct: addProduct};
+  data: {
+    "products": productList,
+    success: {
+      "delete": false,
+      "post": true
+    }
+  },
+  productList,
+  newProductId,
+  addNewProduct,
+  findProductById,
+  deleteProduct,
+  editProduct,
+};
