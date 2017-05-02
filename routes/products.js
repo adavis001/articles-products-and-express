@@ -1,4 +1,3 @@
-
 /* jshint esversion: 6 */
 const express = require('express');
 const productsDB = require('../db/products');

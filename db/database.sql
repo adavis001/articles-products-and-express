@@ -16,8 +16,8 @@ created_at TIMESTAMP NOT NULL DEFAULT now(),
 updated_at TIMESTAMP NULL
 );
 
-INSERT INTO products (name, price, inventory)
-  VALUES ('Spam', 2.99, 300);
+-- INSERT INTO products (name, price, inventory)
+--   VALUES ('Spam', 2.99, 300);
 
 CREATE TABLE articles (
 id SERIAL NOT NULL PRIMARY KEY,

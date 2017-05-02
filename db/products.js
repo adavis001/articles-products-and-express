@@ -12,7 +12,7 @@ let cn = {
 let db  = pgp(cn);
 
 function productList(req, callback)  {
-  return ''
+  return 'wat?!'
 };
 
 let newProductId = 1;
